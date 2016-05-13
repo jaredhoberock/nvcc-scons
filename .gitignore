@@ -1,0 +1,4 @@
+# ignore files introduced by scons
+.sconsign.dblite
+*.pyc
+
