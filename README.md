@@ -13,3 +13,6 @@ The main difference between this tool and CudaTool is that it does a more
 comprehensive job incorporating the vanilla C and C++ command line flags into
 nvcc's command line.
 
+Other assorted enhancements:
+* Automatically links a program with `nvcc` when it is discovered that CUDA source files have been compiled with separate compilation enabled
+* Automatically links against `cudart` when it is discovered that object files originated with CUDA source files
