@@ -132,7 +132,8 @@ def parse_nvcc_flags(flags):
     # all flags which match these will be appended to the NVCCFLAGS variable
     nvcc_flag_patterns = [
       '--expt-extended-lambda',
-      '(--relocatable-device-code|-rdc)=(true|false)'
+      '(--relocatable-device-code|-rdc)=(true|false)',
+      '-Xptxas=.+'
     ]
 
     # join the individual patterns for nvcc flags and name the composite pattern NVCCFLAGS
