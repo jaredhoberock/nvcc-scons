@@ -235,10 +235,23 @@ def add_common_nvcc_variables(env):
     env['_NVCC_PREFIXED_CPPFLAGS']  = '${_concat("-Xcompiler ", CPPFLAGS, "", __env__, _NVCC_PREFIXED_FLAG_FILTER)}'
     env['_NVCC_CPPFLAGS']           = '$_NVCC_BARE_CPPFLAGS $_NVCC_PREFIXED_CPPFLAGS'
 
-    # XXX consider incorporating -ccbin=CXX if CXX differs from the default
+    # this function takes a list of compilers, and it returns the list with the name of nvcc's default host compiler removed
+    # this is used in the _concat() call below to use the -ccbin switch with nvcc only if env['CXX'] specifies a host compiler
+    # different than its default
+    def filter_default_host_compiler(words):
+        if 'gcc' in words:
+            return []
+        elif 'g++' in words:
+            return []
+        return words
+
+    env['_NVCC_DEFAULT_HOST_COMPILER_FILTER'] = filter_default_host_compiler
+
+    # CCBIN: the name of the c++ compiler to use for host code
+    env['_NVCC_CCBIN'] = '${_concat("-ccbin=", CXX, "", __env__, _NVCC_DEFAULT_HOST_COMPILER_FILTER)}'
     
     # assemble portion of the command line common to all nvcc commands
-    env['_NVCC_COMMON_CMD'] = '$_NVCC_CPPFLAGS $_CPPDEFFLAGS $_NVCC_CPPPATH'
+    env['_NVCC_COMMON_CMD'] = '$_NVCC_CCBIN $_NVCC_CPPFLAGS $_CPPDEFFLAGS $_NVCC_CPPPATH'
 
 
 # this function discovers whether a given target has at least one source which is a CUDA source files
