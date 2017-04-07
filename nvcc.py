@@ -161,7 +161,7 @@ def parse_nvcc_flags(flags):
 
     other_flags = []
 
-    for flag in flags:
+    for flag in flags.split():
         # find which regular expression our flag matches
         # in order to discover which variable to merge the flag into 
         m = re.match(composite_pattern, flag)
